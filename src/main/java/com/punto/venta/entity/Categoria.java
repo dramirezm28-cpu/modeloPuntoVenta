@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  *
- * @author ARGELIA
+ * @author Diego
  */
 @Entity
 @Table(name = "categoria")

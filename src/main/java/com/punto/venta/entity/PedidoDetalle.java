@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 
 /**
  *
- * @author ARGELIA
+ * @author Diego
  */
 @Entity
 @Table(name = "pedido_detalle")
