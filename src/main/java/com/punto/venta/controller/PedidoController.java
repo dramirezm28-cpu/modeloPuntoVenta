@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,22 @@ public class PedidoController {
     @GetMapping
     public List<Pedido> listar() {
         return servicio.obtenerPedidos();
+    }
+
+    @GetMapping("/activos")
+    public List<PedidoDTO> mostrarActivos() {
+        return servicio.mostrarActivos();
+    }
+
+    // En pedidos el filtro se hace por el nombre del cliente.
+    @GetMapping("/activos/filtro")
+    public List<PedidoDTO> mostrarActivosFiltro(@RequestParam String filtro) {
+        return servicio.mostrarActivosFiltro(filtro);
+    }
+
+    @GetMapping("/activos/filtro/top")
+    public List<PedidoDTO> mostrarActivosFiltroTop(@RequestParam String filtro) {
+        return servicio.mostrarActivosFiltroTop(filtro);
     }
 
     @PostMapping

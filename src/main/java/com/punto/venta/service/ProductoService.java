@@ -23,6 +23,24 @@ public class ProductoService {
         return productos.findAll();
     }
 
+    public List<ProductoDTO> mostrarActivos() {
+        return productos.findByEstadoTrueOrderByIdProductoDesc().stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<ProductoDTO> mostrarActivosFiltro(String filtro) {
+        return productos.findByEstadoTrueAndNombreContainingIgnoreCaseOrderByIdProductoDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<ProductoDTO> mostrarActivosFiltroTop(String filtro) {
+        return productos.findTop3ByEstadoTrueAndNombreContainingIgnoreCaseOrderByIdProductoDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
     public Producto registrarProducto(ProductoDTO datos) {
         Categoria categoria = buscarCategoria(datos.getIdCategoria());
         Producto producto = crearProducto(datos, categoria);
@@ -43,5 +61,17 @@ public class ProductoService {
         producto.setStock(datos.getStock());
         producto.setIdCategoria(categoria);
         return producto;
+    }
+
+    private ProductoDTO aDTO(Producto producto) {
+        ProductoDTO dto = new ProductoDTO();
+        dto.setIdProducto(producto.getIdProducto());
+        dto.setEstado(producto.getEstado());
+        dto.setNombre(producto.getNombre());
+        dto.setDescripcion(producto.getDescripcion());
+        dto.setPrecio(producto.getPrecio());
+        dto.setStock(producto.getStock());
+        dto.setIdCategoria(producto.getIdCategoria() != null ? producto.getIdCategoria().getIdCategoria() : null);
+        return dto;
     }
 }

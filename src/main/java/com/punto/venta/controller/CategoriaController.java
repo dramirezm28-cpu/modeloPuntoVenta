@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,21 @@ public class CategoriaController {
     @GetMapping
     public List<CategoriaDTO> listar() {
         return servicio.obtenerCategorias();
+    }
+
+    @GetMapping("/activos")
+    public List<CategoriaDTO> mostrarActivos() {
+        return servicio.mostrarActivos();
+    }
+
+    @GetMapping("/activos/filtro")
+    public List<CategoriaDTO> mostrarActivosFiltro(@RequestParam String filtro) {
+        return servicio.mostrarActivosFiltro(filtro);
+    }
+
+    @GetMapping("/activos/filtro/top")
+    public List<CategoriaDTO> mostrarActivosFiltroTop(@RequestParam String filtro) {
+        return servicio.mostrarActivosFiltroTop(filtro);
     }
 
     @PostMapping

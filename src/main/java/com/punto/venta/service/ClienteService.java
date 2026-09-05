@@ -19,6 +19,24 @@ public class ClienteService {
         return repositorio.findAll();
     }
 
+    public List<ClienteDTO> mostrarActivos() {
+        return repositorio.findByEstadoTrueOrderByIdClienteDesc().stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<ClienteDTO> mostrarActivosFiltro(String filtro) {
+        return repositorio.findByEstadoTrueAndNombreContainingIgnoreCaseOrderByIdClienteDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<ClienteDTO> mostrarActivosFiltroTop(String filtro) {
+        return repositorio.findTop3ByEstadoTrueAndNombreContainingIgnoreCaseOrderByIdClienteDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
     public Cliente registrarCliente(ClienteDTO datos) {
         Cliente nuevoCliente = construirCliente(datos);
         return repositorio.save(nuevoCliente);
@@ -33,5 +51,17 @@ public class ClienteService {
         cliente.setTelefono(datos.getTelefono());
         cliente.setFechaRegistro(datos.getFechaRegistro());
         return cliente;
+    }
+
+    private ClienteDTO aDTO(Cliente cliente) {
+        ClienteDTO dto = new ClienteDTO();
+        dto.setIdCliente(cliente.getIdCliente());
+        dto.setEstado(cliente.getEstado());
+        dto.setNombre(cliente.getNombre());
+        dto.setApellido(cliente.getApellido());
+        dto.setEmail(cliente.getEmail());
+        dto.setTelefono(cliente.getTelefono());
+        dto.setFechaRegistro(cliente.getFechaRegistro());
+        return dto;
     }
 }

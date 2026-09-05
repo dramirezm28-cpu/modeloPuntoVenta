@@ -21,6 +21,24 @@ public class CategoriaService {
                 .toList();
     }
 
+    public List<CategoriaDTO> mostrarActivos() {
+        return repositorio.findByEstadoTrueOrderByIdCategoriaDesc().stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<CategoriaDTO> mostrarActivosFiltro(String filtro) {
+        return repositorio.findByEstadoTrueAndNombreContainingIgnoreCaseOrderByIdCategoriaDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<CategoriaDTO> mostrarActivosFiltroTop(String filtro) {
+        return repositorio.findTop3ByEstadoTrueAndNombreContainingIgnoreCaseOrderByIdCategoriaDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
     public CategoriaDTO registrarCategoria(CategoriaDTO datos) {
         Categoria categoria = nuevaCategoria(datos);
         return aDTO(repositorio.save(categoria));

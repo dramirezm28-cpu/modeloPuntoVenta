@@ -29,6 +29,24 @@ public class PedidoDetalleService {
         return detalles.findAll();
     }
 
+    public List<PedidoDetalleDTO> mostrarActivos() {
+        return detalles.findByIdPedido_EstadoTrueOrderByIdPedidoDetalleDesc().stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<PedidoDetalleDTO> mostrarActivosFiltro(String filtro) {
+        return detalles.findByIdPedido_EstadoTrueAndIdProducto_NombreContainingIgnoreCaseOrderByIdPedidoDetalleDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<PedidoDetalleDTO> mostrarActivosFiltroTop(String filtro) {
+        return detalles.findTop3ByIdPedido_EstadoTrueAndIdProducto_NombreContainingIgnoreCaseOrderByIdPedidoDetalleDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
     public PedidoDetalle registrarDetalle(PedidoDetalleDTO datos) {
         Pedido pedido = pedidos.findById(datos.getIdPedido())
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
@@ -48,5 +66,16 @@ public class PedidoDetalleService {
         detalle.setIdPedido(pedido);
         detalle.setIdProducto(producto);
         return detalle;
+    }
+
+    private PedidoDetalleDTO aDTO(PedidoDetalle detalle) {
+        PedidoDetalleDTO dto = new PedidoDetalleDTO();
+        dto.setIdPedidoDetalle(detalle.getIdPedidoDetalle());
+        dto.setCantidad(detalle.getCantidad());
+        dto.setPrecioUnitario(detalle.getPrecioUnitario());
+        dto.setSubtotal(detalle.getSubtotal());
+        dto.setIdPedido(detalle.getIdPedido() != null ? detalle.getIdPedido().getIdPedido() : null);
+        dto.setIdProducto(detalle.getIdProducto() != null ? detalle.getIdProducto().getIdProducto() : null);
+        return dto;
     }
 }

@@ -23,6 +23,24 @@ public class PedidoService {
         return pedidos.findAll();
     }
 
+    public List<PedidoDTO> mostrarActivos() {
+        return pedidos.findByEstadoTrueOrderByIdPedidoDesc().stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<PedidoDTO> mostrarActivosFiltro(String filtro) {
+        return pedidos.findByEstadoTrueAndIdCliente_NombreContainingIgnoreCaseOrderByIdPedidoDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
+    public List<PedidoDTO> mostrarActivosFiltroTop(String filtro) {
+        return pedidos.findTop3ByEstadoTrueAndIdCliente_NombreContainingIgnoreCaseOrderByIdPedidoDesc(filtro).stream()
+                .map(this::aDTO)
+                .toList();
+    }
+
     public Pedido registrarPedido(PedidoDTO datos) {
         Cliente cliente = obtenerCliente(datos.getIdCliente());
         Pedido pedido = crearPedido(datos, cliente);
@@ -42,5 +60,16 @@ public class PedidoService {
         pedido.setTotal(datos.getTotal());
         pedido.setIdCliente(cliente);
         return pedido;
+    }
+
+    private PedidoDTO aDTO(Pedido pedido) {
+        PedidoDTO dto = new PedidoDTO();
+        dto.setIdPedido(pedido.getIdPedido());
+        dto.setEstado(pedido.getEstado());
+        dto.setFechaPedido(pedido.getFechaPedido());
+        dto.setEstadoPedido(pedido.getEstadoPedido());
+        dto.setTotal(pedido.getTotal());
+        dto.setIdCliente(pedido.getIdCliente() != null ? pedido.getIdCliente().getIdCliente() : null);
+        return dto;
     }
 }
