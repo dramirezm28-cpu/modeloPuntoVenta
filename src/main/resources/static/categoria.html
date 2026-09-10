@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorías | Punto de Venta</title>
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+  <header class="topbar barra-nav">
+    <div><h1>Categorías</h1><p>Administración de categorías</p></div>
+    <nav>
+      <a href="/">Inicio</a>
+      <a class="activo" href="/categoria.html">Categorías</a>
+      <a href="/producto.html">Productos</a>
+      <a href="/cliente.html">Clientes</a>
+    </nav>
+  </header>
+
+  <main class="contenedor grid-principal">
+    <section class="panel">
+      <h2>Registrar categoría</h2>
+      <form id="formCategoria">
+        <label>Nombre<input id="nombre" required maxlength="100"></label>
+        <label>Descripción<textarea id="descripcion" rows="3" maxlength="255"></textarea></label>
+        <button type="submit">Guardar categoría</button>
+      </form>
+      <p id="mensaje" class="mensaje"></p>
+    </section>
+
+    <section class="panel panel-tabla">
+      <div class="encabezado-tabla">
+        <div><h2>Categorías activas</h2><p>Datos obtenidos desde Spring Boot</p></div>
+        <div class="buscador">
+          <input id="filtro" placeholder="Buscar por nombre...">
+          <button id="btnBuscar" type="button" class="secundario">Buscar</button>
+          <button id="btnTodos" type="button" class="claro">Todos</button>
+        </div>
+      </div>
+      <div class="tabla-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Estado</th></tr></thead>
+          <tbody id="tablaCategorias"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="/js/categoria.js"></script>
+</body>
+</html>

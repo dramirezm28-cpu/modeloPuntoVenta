@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos | Punto de Venta</title>
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+  <header class="topbar barra-nav">
+    <div><h1>Productos</h1><p>Administración de productos</p></div>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/categoria.html">Categorías</a>
+      <a class="activo" href="/producto.html">Productos</a>
+      <a href="/cliente.html">Clientes</a>
+    </nav>
+  </header>
+
+  <main class="contenedor grid-principal">
+    <section class="panel">
+      <h2>Registrar producto</h2>
+      <form id="formProducto">
+        <label>Nombre<input id="nombre" required maxlength="120"></label>
+        <label>Descripción<textarea id="descripcion" rows="2" maxlength="255"></textarea></label>
+        <div class="dos-columnas">
+          <label>Precio<input id="precio" type="number" min="0" step="0.01" required></label>
+          <label>Stock<input id="stock" type="number" min="0" step="1" required></label>
+        </div>
+        <label>Categoría<select id="idCategoria" required><option value="">Seleccione...</option></select></label>
+        <button type="submit">Guardar producto</button>
+      </form>
+      <p id="mensaje" class="mensaje"></p>
+    </section>
+
+    <section class="panel panel-tabla">
+      <div class="encabezado-tabla">
+        <div><h2>Productos activos</h2><p>Datos obtenidos desde Spring Boot</p></div>
+        <div class="buscador">
+          <input id="filtro" placeholder="Buscar por nombre...">
+          <button id="btnBuscar" type="button" class="secundario">Buscar</button>
+          <button id="btnTodos" type="button" class="claro">Todos</button>
+        </div>
+      </div>
+      <div class="tabla-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Precio</th><th>Stock</th><th>Categoría</th></tr></thead>
+          <tbody id="tablaProductos"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="/js/producto.js"></script>
+</body>
+</html>
